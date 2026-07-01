@@ -20,22 +20,28 @@ document.addEventListener("DOMContentLoaded", () => {
         activityCard.className = "activity-card";
 
         const spotsLeft = details.max_participants - details.participants.length;
-        const participantsHtml = details.participants.length
+        const participantCount = details.participants.length;
+        const participantsHtml = participantCount
           ? `<ul class="participants-list">${details.participants.map((participant) => `
               <li>
                 <span class="participant-name">${participant}</span>
                 <button type="button" class="participant-delete" data-activity="${name}" data-email="${participant}" aria-label="Remove ${participant}">&times;</button>
               </li>`).join("")}
             </ul>`
-          : `<p class="no-participants">No participants yet.</p>`;
+          : `<p class="no-participants">No participants yet — be the first to sign up.</p>`;
 
         activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          <div class="activity-card-header">
+            <h4>${name}</h4>
+            <span class="activity-badge">${spotsLeft} spots left</span>
+          </div>
+          <p class="activity-description">${details.description}</p>
+          <p class="activity-meta"><strong>Schedule:</strong> ${details.schedule}</p>
           <div class="participants-section">
-            <p><strong>Participants:</strong></p>
+            <div class="participants-section-header">
+              <strong>Participants</strong>
+              <span class="participant-count">${participantCount}/${details.max_participants}</span>
+            </div>
             ${participantsHtml}
           </div>
         `;
